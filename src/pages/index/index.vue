@@ -6,18 +6,15 @@
       <div class="userinfo-nickname">
         <card :text="userInfo.nickName"></card>
       </div>
-    </div>
-
-    <div class="usermotto">
       <div class="user-motto">
         <card :text="motto"></card>
       </div>
     </div>
 
-    <form class="form-container">
+    <!-- <form class="form-container">
       <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
       <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
-    </form>
+    </form> -->
     <a href="/pages/counter/main" class="counter">去往Vuex示例页面</a>
   </div>
 </template>
@@ -28,8 +25,10 @@ import card from '@/components/card'
 export default {
   data () {
     return {
-      motto: 'Hello World',
-      userInfo: {}
+      motto: 'mpvue试玩！',
+      userInfo: {
+        nickName:'美团mpVue'
+      }
     }
   },
 
@@ -81,7 +80,8 @@ export default {
 }
 
 .userinfo-nickname {
-  color: #aaa;
+  color: #333;
+  font-size:48rpx
 }
 
 .usermotto {
