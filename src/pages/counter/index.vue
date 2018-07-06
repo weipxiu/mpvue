@@ -1,13 +1,12 @@
 <template>
   <div class="counter-warp">
     <p>Vuex counter：{{ count }}</p>
-    <p>{{filterCount}}</p>
     <p>
       <button @click="increment">+</button>
       <button @click="decrement">-</button>
     </p>
 
-    <a href="/pages/index/main" class="home">去首页</a>
+    <a href="/pages/index/main" class="home">进入首页</a>
   </div>
 </template>
 <script>
@@ -16,7 +15,7 @@ import store from './store'
 
 export default {
   data: {
-    sum: store.state.count + 100
+    
   },
   methods: {
     increment() {
@@ -24,15 +23,13 @@ export default {
       store.commit('increment')
     },
     decrement() {
+      if(store.state.count <= 0)return
       store.commit('decrement')
     }
   },
   computed: {
     count() {
       return store.state.count
-    },
-    filterCount() {
-      return store.getter <= 0 ? 0 : store.getter;
     }
   }
 }
