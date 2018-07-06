@@ -18,7 +18,7 @@ export default {
       navigationBarBackgroundColor: "#F44B50",
       navigationBarTextStyle: "white",
       navigationBarTitleText: 'mpVue试玩',
-      navigationBarTextStyle: '#fff',
+      navigationBarTextStyle: '#000',
       enablePullDownRefresh: true //启用下拉事件
     },
     tabBar: {

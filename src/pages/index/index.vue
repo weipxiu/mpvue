@@ -1,6 +1,6 @@
 <template>
   <!-- <h1 class="counter">小程序</h1> -->
-  <scroll-view :scroll-y="true" style="height:100%" :lower-threshold="300" @bindscrolltolower="scrollHandler" @bindscrolltoupper="scrollUpHandle">
+  <scroll-view :scroll-y="true" :style="{'height': windowHeight+'px'}" @scrolltolower="scrollHandler" @scrolltoupper="scrollUpHandle">
     <div class="list-item" v-for="(item,index) in movies" v-bind:key="index" v-show="movies.length">
       <div class="movie-item" v-for="(itemData, itemIndex) in item" v-bind:key="itemIndex">
         <!-- <image class="poster" mode="widthFix" lazy-load="true" src="{{item.poster}}" /> -->
@@ -31,7 +31,8 @@ export default {
       movies: [],
       page: 1,
       size: 6,
-      loading: true
+      loading: true,
+      windowHeight:0
     }
   },
 
@@ -63,19 +64,12 @@ export default {
     },
 
     scrollHandler() {
-      console.log('546464')
-      const { page } = this.data
-      this.setData({
-        page: page + 1
-      })
+      this.page = this.page + 1
       this.loadMovies()
     },
     scrollUpHandle() {
       console.log('下拉')
-      const { page } = this.data
-      this.setData({
-        page: page + 1
-      })
+      this.page = this.page + 1
       this.loadMovies()
     }
 
@@ -88,6 +82,19 @@ export default {
 
     //wx.hideNavigationBarLoading(); //完成停止加载
     //wx.stopPullDownRefresh(); //停止下拉刷新
+
+    wx.getSystemInfo({
+      success: (res) => {
+        console.log(res.model)
+        console.log(res.pixelRatio)
+        console.log(res.windowWidth)
+        console.log(res.windowHeight)
+        console.log(res.language)
+        console.log(res.version)
+        console.log(res.platform)
+        this.windowHeight = res.windowHeight
+      }
+    })
   }
 }
 </script>
