@@ -16,14 +16,19 @@
       </div>
     </div>
 
-    <div class="loading">
+    <div class="loading" v-show="loading">
       <img src="/static/loading-bars.svg">
     </div>
+
+    <!-- <div class="loading" wx:if="{{loading}}">
+      <img src="/assets/loading/loading-bars.svg" model="widthFix">
+    </div>  -->
   </scroll-view>
 </template>
 
 <script>
 import card from '@/components/card'
+// import Config from '/config'
 
 export default {
   data() {
@@ -47,6 +52,11 @@ export default {
     loadMovies() {
       var that = this;
       this.loading = true
+      wx.showToast({
+        title: '加载中',
+        icon: 'loading',
+        duration: 2000
+      });
       wx.request({
         url: `https://www.newfq.com/doubanapi/v0/movie/list?page=${that.page}&size=${that.size}`,
         success: (res) => {
@@ -59,6 +69,10 @@ export default {
           this.movies = movies
           this.loading = false
           console.log(movies)
+          wx.hideToast();
+
+          wx.hideNavigationBarLoading(); //完成停止加载
+          wx.stopPullDownRefresh(); //停止下拉刷新
         }
       })
     },
@@ -71,17 +85,13 @@ export default {
       console.log('下拉')
       this.page = this.page + 1
       this.loadMovies()
+      wx.showNavigationBarLoading(); //在标题栏中显示加载
     }
-
   },
 
   created() {
     // 获取视频列表视频
     this.loadMovies()
-    wx.showNavigationBarLoading(); //在标题栏中显示加载
-
-    //wx.hideNavigationBarLoading(); //完成停止加载
-    //wx.stopPullDownRefresh(); //停止下拉刷新
 
     wx.getSystemInfo({
       success: (res) => {
