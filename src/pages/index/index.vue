@@ -1,6 +1,6 @@
 <template>
   <!-- <h1 class="counter">小程序</h1> -->
-  <scroll-view :scroll-y="true" :style="{'height': windowHeight+'px'}" @scrolltolower="scrollHandler" @scrolltoupper="scrollUpHandle">
+  <scroll-view :scroll-y="true" :style="{'height': windowHeight+'px'}" lower-threshold=0 upper-threshold=0 @scrolltolower="scrollHandler" @scrolltoupper="scrollUpHandle">
     <div class="list-item" v-for="(item,index) in movies" v-bind:key="index" v-show="movies.length">
       <div class="movie-item" v-for="(itemData, itemIndex) in item" v-bind:key="itemIndex">
         <!-- <image class="poster" mode="widthFix" lazy-load="true" src="{{item.poster}}" /> -->
@@ -37,7 +37,8 @@ export default {
       page: 1,
       size: 6,
       loading: true,
-      windowHeight:0
+      windowHeight: 0,
+      off :true //刷新数据开关
     }
   },
 
@@ -50,31 +51,37 @@ export default {
       console.log('clickHandle:', msg, ev)
     },
     loadMovies() {
-      var that = this;
+      let that = this;
       this.loading = true
       wx.showToast({
         title: '加载中',
         icon: 'loading',
         duration: 2000
       });
-      wx.request({
-        url: `https://www.newfq.com/doubanapi/v0/movie/list?page=${that.page}&size=${that.size}`,
-        success: (res) => {
-          const { data } = res.data
-          const movies = this.movies || []
+      console.log(this.off)
+      if (this.off) {
+        // this.off = false;
+        wx.request({
+          url: `https://www.newfq.com/doubanapi/v0/movie/list?page=${that.page}&size=${that.size}`,
+          success: (res) => {
+            const { data } = res.data
+            const movies = this.movies || []
 
-          for (let i = 0; i < data.length; i += 2) {
-            movies.push([data[i], data[i + 1] ? data[i + 1] : null])
+            for (let i = 0; i < data.length; i += 2) {
+              movies.push([data[i], data[i + 1] ? data[i + 1] : null])
+            }
+            this.movies = movies
+            this.loading = false
+            wx.hideToast();
+
+            wx.hideNavigationBarLoading(); //完成停止加载
+            wx.stopPullDownRefresh(); //停止下拉刷新
+            // setTimeout(()=>{
+            //   that.off = true;
+            // },3500)
           }
-          this.movies = movies
-          this.loading = false
-          console.log(movies)
-          wx.hideToast();
-
-          wx.hideNavigationBarLoading(); //完成停止加载
-          wx.stopPullDownRefresh(); //停止下拉刷新
-        }
-      })
+        })
+      }
     },
 
     scrollHandler() {

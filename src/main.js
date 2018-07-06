@@ -16,14 +16,13 @@ export default {
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: "#F44B50",
-      navigationBarTextStyle: "white",
       navigationBarTitleText: 'mpVue试玩',
-      navigationBarTextStyle: '#000',
+      navigationBarTextStyle: '#000000',
       enablePullDownRefresh: true //启用下拉事件
     },
     tabBar: {
       color: "#999999",
-      selectedColor: "666",
+      selectedColor: "#666666",
       borderStyle: "white",
       backgroundColor: "#F9F9F9",
       list: [
