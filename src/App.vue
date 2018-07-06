@@ -12,6 +12,9 @@ export default {
 </script>
 
 <style>
+page{
+  background: #eeeeee
+}
 .container {
   height: 100%;
   display: flex;

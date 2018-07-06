@@ -1,6 +1,6 @@
 <template>
   <!-- <h1 class="counter">小程序</h1> -->
-  <scroll-view :scroll-y="true" :style="{'height': windowHeight+'px'}" lower-threshold=0 upper-threshold=0 @scrolltolower="scrollHandler" @scrolltoupper="scrollUpHandle">
+  <div class="content">
     <div class="list-item" v-for="(item,index) in movies" v-bind:key="index" v-show="movies.length">
       <div class="movie-item" v-for="(itemData, itemIndex) in item" v-bind:key="itemIndex">
         <!-- <image class="poster" mode="widthFix" lazy-load="true" src="{{item.poster}}" /> -->
@@ -20,10 +20,7 @@
       <img src="/static/loading-bars.svg">
     </div>
 
-    <!-- <div class="loading" wx:if="{{loading}}">
-      <img src="/assets/loading/loading-bars.svg" model="widthFix">
-    </div>  -->
-  </scroll-view>
+  </div>
 </template>
 
 <script>
@@ -38,7 +35,7 @@ export default {
       size: 6,
       loading: true,
       windowHeight: 0,
-      off :true //刷新数据开关
+      off: true //刷新数据开关
     }
   },
 
@@ -60,7 +57,6 @@ export default {
       });
       console.log(this.off)
       if (this.off) {
-        // this.off = false;
         wx.request({
           url: `https://www.newfq.com/doubanapi/v0/movie/list?page=${that.page}&size=${that.size}`,
           success: (res) => {
@@ -76,23 +72,10 @@ export default {
 
             wx.hideNavigationBarLoading(); //完成停止加载
             wx.stopPullDownRefresh(); //停止下拉刷新
-            // setTimeout(()=>{
-            //   that.off = true;
-            // },3500)
+
           }
         })
       }
-    },
-
-    scrollHandler() {
-      this.page = this.page + 1
-      this.loadMovies()
-    },
-    scrollUpHandle() {
-      console.log('下拉')
-      this.page = this.page + 1
-      this.loadMovies()
-      wx.showNavigationBarLoading(); //在标题栏中显示加载
     }
   },
 
@@ -112,20 +95,31 @@ export default {
         this.windowHeight = res.windowHeight
       }
     })
+  },
+  onReachBottom() {
+    this.page = this.page + 1
+    this.loadMovies()
+  },
+  onPullDownRefresh() {
+    console.log('下拉')
+    this.page = this.page + 1
+    this.loadMovies()
+    wx.showNavigationBarLoading(); //在标题栏中显示加载
   }
 }
 </script>
 
 <style scoped>
+.content {
+  background: #fff;
+}
 .counter {
   font-size: 38rpx;
   color: #333;
   text-align: center;
   margin: 45rpx 0;
 }
-page {
-  height: 100%;
-}
+
 .list-item {
   overflow: hidden;
 }
