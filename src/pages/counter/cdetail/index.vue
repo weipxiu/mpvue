@@ -45,7 +45,7 @@ export default {
     clickHandle(msg, ev) {
       console.log("clickHandle:", msg, ev);
     },
-    loadMovies() {
+    loadMovies(type) {
       let that = this;
       this.loading = true;
       wx.showToast({
@@ -55,9 +55,10 @@ export default {
       });
       wx.request({
         url: `https://www.newfq.com/doubanapi/v0/movie/list?type=${
-          this.type
+          type
         }&page=${that.page}&size=${that.size}`,
         success: res => {
+          this.movies = null; //先置空，否则第二次进详情页界面视图层不更新改变
           const { data } = res.data;
           const movies = this.movies || [];
 
@@ -90,14 +91,14 @@ export default {
     });
   },
   onLoad(opt) {
-    this.type = opt.type;
+    let {type} = opt
     // 获取视频列表视频
-    this.loadMovies();
-    console.log('123321',opt.type)
+    this.loadMovies(type);
+    console.log('123321',type)
 
     //动态设置顶部title
     wx.setNavigationBarTitle({
-      title: opt.type
+      title: type
     });
   },
   onReachBottom() {
@@ -105,7 +106,6 @@ export default {
     this.loadMovies();
   },
   onPullDownRefresh() {
-    console.log("下拉");
     this.page = this.page + 1;
     this.loadMovies();
     wx.showNavigationBarLoading(); //在标题栏中显示加载
