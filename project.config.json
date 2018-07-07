@@ -29,11 +29,11 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 0,
 			"list": [
 				{
-					"id": -1,
-					"name": "vuex页面",
+					"id": 0,
+					"name": "分类",
 					"pathName": "pages/counter/main",
 					"query": ""
 				}

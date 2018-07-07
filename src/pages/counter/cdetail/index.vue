@@ -34,14 +34,13 @@ export default {
       page: 1,
       size: 6,
       loading: true,
-      windowHeight: 0
+      windowHeight: 0,
+      type:'爱情'
     }
   },
-
   components: {
     card
   },
-
   methods: {
     clickHandle(msg, ev) {
       console.log('clickHandle:', msg, ev)
@@ -55,7 +54,7 @@ export default {
         duration: 2000
       });
         wx.request({
-          url: `https://www.newfq.com/doubanapi/v0/movie/list?page=${that.page}&size=${that.size}`,
+          url: `https://www.newfq.com/doubanapi/v0/movie/list?type=${this.type}&page=${that.page}&size=${that.size}`,
           success: (res) => {
             const { data } = res.data
             const movies = this.movies || []
@@ -69,16 +68,12 @@ export default {
 
             wx.hideNavigationBarLoading(); //完成停止加载
             wx.stopPullDownRefresh(); //停止下拉刷新
-
           }
         })
     }
   },
 
   created() {
-    // 获取视频列表视频
-    this.loadMovies()
-
     wx.getSystemInfo({
       success: (res) => {
         // console.log(res.model)
@@ -90,6 +85,16 @@ export default {
         // console.log(res.platform)
         this.windowHeight = res.windowHeight
       }
+    })
+  },
+  onLoad(opt){
+    this.type = opt.type;
+    // 获取视频列表视频
+    this.loadMovies()
+
+    //动态设置顶部title
+    wx.setNavigationBarTitle({
+       title: opt.type
     })
   },
   onReachBottom() {
