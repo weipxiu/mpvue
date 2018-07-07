@@ -14,7 +14,7 @@ export default {
     pages: [
       'pages/logs/main','pages/counter/main', '^pages/index/main'],
     window: {
-      backgroundTextStyle: 'light',
+      backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: "#F44B50",
       navigationBarTitleText: 'mpVue试玩',
       navigationBarTextStyle: '#000000',
