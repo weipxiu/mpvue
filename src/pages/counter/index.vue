@@ -40,7 +40,7 @@ export default {
     tapTypeHandle(e) {
       const name = e.currentTarget.dataset.type;
       wx.navigateTo({
-        url: "/pages/counter/cdetail/main?type=" + name
+        url: "/pages/counter/cdetail/main?type=" + name + "&off=1"
       });
     }
   },

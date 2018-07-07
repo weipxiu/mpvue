@@ -2,7 +2,7 @@
   <!-- <h1 class="counter">小程序</h1> -->
   <div class="content">
     <div class="list-item" v-for="(item,index) in movies" v-bind:key="index" v-show="movies.length">
-      <div class="movie-item" v-for="(itemData, itemIndex) in item" v-bind:key="itemIndex">
+      <div class="movie-item" v-for="(itemData, itemIndex) in item" v-if="itemData" v-bind:key="itemIndex">
         <!-- <image class="poster" mode="widthFix" lazy-load="true" :src="itemData.poster" /> -->
         <image class="poster" mode="widthFix" lazy-load="true" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530865925286&di=20a4ec51aacb431098c0030b10a27a09&imgtype=0&src=http%3A%2F%2Fbaiducdn.pig66.com%2Fuploadfile%2F2017%2F0321%2F20170321060144174.jpg" />
         <div class="title">
@@ -57,8 +57,8 @@ export default {
         wx.request({
           url: `https://www.newfq.com/doubanapi/v0/movie/list?page=${that.page}&size=${that.size}`,
           success: (res) => {
-            const { data } = res.data
-            const movies = this.movies || []
+            let { data } = res.data
+            let movies = this.movies || []
 
             for (let i = 0; i < data.length; i += 2) {
               movies.push([data[i], data[i + 1] ? data[i + 1] : null])
