@@ -38,7 +38,6 @@ export default {
   },
   methods: {
     tapTypeHandle(e) {
-      console.log(e.currentTarget.dataset.type)
       const name = e.currentTarget.dataset.type;
       wx.navigateTo({
         url: "/pages/counter/cdetail/main?type=" + name

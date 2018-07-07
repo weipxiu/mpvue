@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import card from '@/components/card'
+import card from "@/components/card";
 // import Config from '/config'
 
 export default {
@@ -35,47 +35,49 @@ export default {
       size: 6,
       loading: true,
       windowHeight: 0,
-      type:'爱情'
-    }
+      type: "爱情"
+    };
   },
   components: {
     card
   },
   methods: {
     clickHandle(msg, ev) {
-      console.log('clickHandle:', msg, ev)
+      console.log("clickHandle:", msg, ev);
     },
     loadMovies() {
       let that = this;
-      this.loading = true
+      this.loading = true;
       wx.showToast({
-        title: '加载中',
-        icon: 'loading',
+        title: "加载中",
+        icon: "loading",
         duration: 2000
       });
-        wx.request({
-          url: `https://www.newfq.com/doubanapi/v0/movie/list?type=${this.type}&page=${that.page}&size=${that.size}`,
-          success: (res) => {
-            const { data } = res.data
-            const movies = this.movies || []
+      wx.request({
+        url: `https://www.newfq.com/doubanapi/v0/movie/list?type=${
+          this.type
+        }&page=${that.page}&size=${that.size}`,
+        success: res => {
+          const { data } = res.data;
+          const movies = this.movies || [];
 
-            for (let i = 0; i < data.length; i += 2) {
-              movies.push([data[i], data[i + 1] ? data[i + 1] : null])
-            }
-            this.movies = movies
-            this.loading = false
-            wx.hideToast();
-
-            wx.hideNavigationBarLoading(); //完成停止加载
-            wx.stopPullDownRefresh(); //停止下拉刷新
+          for (let i = 0; i < data.length; i += 2) {
+            movies.push([data[i], data[i + 1] ? data[i + 1] : null]);
           }
-        })
+          this.movies = movies;
+          this.loading = false;
+          wx.hideToast();
+
+          wx.hideNavigationBarLoading(); //完成停止加载
+          wx.stopPullDownRefresh(); //停止下拉刷新
+        }
+      });
     }
   },
 
   created() {
     wx.getSystemInfo({
-      success: (res) => {
+      success: res => {
         // console.log(res.model)
         // console.log(res.pixelRatio)
         // console.log(res.windowWidth)
@@ -83,31 +85,32 @@ export default {
         // console.log(res.language)
         // console.log(res.version)
         // console.log(res.platform)
-        this.windowHeight = res.windowHeight
+        this.windowHeight = res.windowHeight;
       }
-    })
+    });
   },
-  onLoad(opt){
+  onLoad(opt) {
     this.type = opt.type;
     // 获取视频列表视频
-    this.loadMovies()
+    this.loadMovies();
+    console.log('123321',opt.type)
 
     //动态设置顶部title
     wx.setNavigationBarTitle({
-       title: opt.type
-    })
+      title: opt.type
+    });
   },
   onReachBottom() {
-    this.page = this.page + 1
-    this.loadMovies()
+    this.page = this.page + 1;
+    this.loadMovies();
   },
   onPullDownRefresh() {
-    console.log('下拉')
-    this.page = this.page + 1
-    this.loadMovies()
+    console.log("下拉");
+    this.page = this.page + 1;
+    this.loadMovies();
     wx.showNavigationBarLoading(); //在标题栏中显示加载
   }
-}
+};
 </script>
 
 <style scoped>
