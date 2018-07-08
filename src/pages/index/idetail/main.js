@@ -6,6 +6,7 @@ app.$mount()
 
 export default {
   config: {
-    navigationBarTitleText: '查看启动日志'
+    navigationBarTitleText: '详情',
+    enablePullDownRefresh: true //启用下拉事件
   }
 }

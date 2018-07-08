@@ -36,6 +36,12 @@
 					"name": "分类",
 					"pathName": "pages/counter/main",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "个人中心",
+					"pathName": "pages/user/main",
+					"query": ""
 				}
 			]
 		}

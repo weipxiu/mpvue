@@ -6,7 +6,9 @@ app.$mount()
 
 export default {
   config: {
-    navigationBarTitleText: '电影预告',
-    enablePullDownRefresh: true //启用下拉事件
+    "window": {
+      "navigationBarTitleText": "用户中心"
+    }
   }
 }
+
