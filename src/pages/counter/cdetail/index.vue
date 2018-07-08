@@ -2,7 +2,7 @@
   <!-- <h1 class="counter">小程序</h1> -->
   <div class="content">
     <div class="list-item" v-for="(item,index) in movies" v-bind:key="index" v-show="movies.length">
-      <div class="movie-item" v-for="(itemData, itemIndex) in item" v-if="itemData" @click="gotoDetail(itemData._id)" v-bind:key="itemIndex">
+      <div class="movie-item" v-for="(itemData, itemIndex) in item" v-if="itemData" @click="gotoDetail(itemData.id)" v-bind:key="itemIndex">
         <!-- <image class="poster" mode="widthFix" lazy-load="true" :src="itemData.poster" /> -->
         <image class="poster" :src="itemData.images.small" />
         <div class="title">
