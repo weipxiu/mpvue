@@ -50,7 +50,9 @@ export default {
     loadMovies(off) {
       //如果是从列表页过来的，那么应该先清空之前的list数据
       if(off){
-        this.movies = []
+        this.movies = [],
+        this.page = 1,
+        this.size = 6
       }
       let that = this;
       this.loading = true;

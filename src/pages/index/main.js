@@ -6,7 +6,7 @@ app.$mount()
 
 export default {
   config: {
-    navigationBarTitleText: 'mpVue世界！',
+    navigationBarTitleText: '电影预告首页',
     enablePullDownRefresh: true //启用下拉事件
   }
 }
