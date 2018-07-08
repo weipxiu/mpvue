@@ -6,7 +6,6 @@ app.$mount()
 
 export default {
   config: {
-    navigationBarTitleText: '详情',
-    enablePullDownRefresh: true //启用下拉事件
+    navigationBarTitleText: '详情'  
   }
 }

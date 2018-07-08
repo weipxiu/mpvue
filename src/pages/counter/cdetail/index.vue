@@ -2,16 +2,16 @@
   <!-- <h1 class="counter">小程序</h1> -->
   <div class="content">
     <div class="list-item" v-for="(item,index) in movies" v-bind:key="index" v-show="movies.length">
-      <div class="movie-item" v-for="(itemData, itemIndex) in item" v-if="itemData"  @click="gotoDetail(itemData._id)" v-bind:key="itemIndex">
+      <div class="movie-item" v-for="(itemData, itemIndex) in item" v-if="itemData" @click="gotoDetail(itemData._id)" v-bind:key="itemIndex">
         <!-- <image class="poster" mode="widthFix" lazy-load="true" :src="itemData.poster" /> -->
-        <image class="poster" mode="widthFix" lazy-load="true" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530865925286&di=20a4ec51aacb431098c0030b10a27a09&imgtype=0&src=http%3A%2F%2Fbaiducdn.pig66.com%2Fuploadfile%2F2017%2F0321%2F20170321060144174.jpg" />
+        <image class="poster" :src="itemData.images.small" />
         <div class="title">
           <text>{{itemData.title}}
-            <text class="rate">{{itemData.rate}}</text>
+            <text class="rate">{{itemData.rating.average}}</text>
           </text>
         </div>
         <div class="year-type">
-          <text>{{itemData.types}} / {{itemData.year}}</text>
+          <text>{{itemData.genres}} / {{itemData.year}}</text>
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@ export default {
       loading: true,
       windowHeight: 0,
       type: "爱情",
-      baselineShow:false
+      baselineShow: false
     };
   },
   components: {
@@ -48,10 +48,8 @@ export default {
     },
     loadMovies(off) {
       //如果是从列表页过来的，那么应该先清空之前的list数据
-      if(off){
-        this.movies = [],
-        this.page = 1,
-        this.size = 6
+      if (off) {
+        (this.movies = []), (this.page = 0), (this.size = 610);
       }
       let that = this;
       this.loading = true;
@@ -61,19 +59,20 @@ export default {
         duration: 2000
       });
       wx.request({
-        url: `https://www.newfq.com/doubanapi/v0/movie/list?type=${
+        url: `https://douban.uieee.com/v2/movie/new_movies?type=${
           this.type
         }&page=${that.page}&size=${that.size}`,
+        header: { "Content-Type": "json" },
         success: res => {
-          let { data } = res.data;
-          if(!data.length){
+          let { subjects } = res.data;
+          if (!subjects.length) {
             this.loading = false;
             this.baselineShow = true;
           }
           let movies = this.movies || [];
 
-          for (let i = 0; i < data.length; i += 2) {
-            movies.push([data[i], data[i + 1] ? data[i + 1] : null]);
+          for (let i = 0; i < subjects.length; i += 2) {
+            movies.push([subjects[i], subjects[i + 1] ? subjects[i + 1] : subjects[i - 1]]);
           }
           this.movies = movies;
           this.loading = false;
@@ -84,11 +83,11 @@ export default {
         }
       });
     },
-    gotoDetail(id){
-      console.log('跳转详情页',id)
+    gotoDetail(id) {
+      console.log("跳转详情页", id);
       wx.navigateTo({
-        url: '/pages/index/idetail/main?id=' + id
-      })
+        url: "/pages/index/idetail/main?id=" + id
+      });
     }
   },
 
@@ -107,11 +106,11 @@ export default {
     });
   },
   onLoad(opt) {
-    let {type,off} = opt
-    this.type = type
+    let { type, off } = opt;
+    this.type = type;
     // 获取视频列表视频
     this.loadMovies(off);
-    console.log('123321',type)
+    console.log("123321", type);
 
     //动态设置顶部title
     wx.setNavigationBarTitle({
@@ -185,10 +184,10 @@ export default {
   width: 100%;
   height: 100%;
 }
-.baseline{
-  font-size:30rpx;
+.baseline {
+  font-size: 30rpx;
   text-align: center;
-  margin:25rpx 0;
-  color:#555;
+  margin: 25rpx 0;
+  color: #555;
 }
 </style>

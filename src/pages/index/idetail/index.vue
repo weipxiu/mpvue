@@ -1,15 +1,15 @@
 <template>
-  <div class="container">
-    <video style="width: 100%;" :src="movie.video" />
+  <div class="container" v-if="movie">
+    <video style="width: 100%;" :src="movie.blooper_urls" />
     <div class="movie-content">
       <div class="title">
         <p>{{movie.title}}</p>
       </div>
       <div class="type">
-        <p>{{movie.rate}}分 / {{movie.types}}</p>
+        <p>{{movie.rating.average}}分 / {{movie.genres}}</p>
       </div>
       <div class="pubdate">
-        上映时间: {{movie.pubdate}} ({{movie.country}})
+        上映时间: {{movie.pubdate}}({{movie.languages}})
       </div>
       <div class="summary">
         电影简介：
@@ -56,10 +56,11 @@ export default {
         duration: 2000
       });
       wx.request({
-        url: `https://www.newfq.com/doubanapi/v0/movie/detail/${id}`,
+        url: `https://douban.uieee.com/v2/movie/subject/${id}`,
+        header: { 'Content-Type': 'json' },        
         success: res => {
           if (!res.data.lenght) {
-            let movie = res.data.data;
+            let movie = res.data;
             this.movie = movie;
             // wx.hideLoading();
 

@@ -2,16 +2,16 @@
   <!-- <h1 class="counter">小程序</h1> -->
   <div class="content">
     <div class="list-item" v-for="(item,index) in movies" v-bind:key="index" v-show="movies.length">
-      <div class="movie-item" v-for="(itemData, itemIndex) in item" v-if="itemData"  @click="gotoDetail(itemData._id)" v-bind:key="itemIndex">
+      <div class="movie-item" v-for="(itemData, itemIndex) in item" v-if="itemData"  @click="gotoDetail(itemData.id)" v-bind:key="itemIndex">
         <!-- <image class="poster" mode="widthFix" lazy-load="true" :src="itemData.poster" /> -->
-        <image class="poster" mode="widthFix" lazy-load="true" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530865925286&di=20a4ec51aacb431098c0030b10a27a09&imgtype=0&src=http%3A%2F%2Fbaiducdn.pig66.com%2Fuploadfile%2F2017%2F0321%2F20170321060144174.jpg" />
+        <image class="poster" :src="itemData.images.small" />
         <div class="title">
           <text>{{itemData.title}}
-            <text class="rate">{{itemData.rate}}</text>
+            <text class="rate">{{itemData.rating.average}}</text>
           </text>
         </div>
         <div class="year-type">
-          <text>{{itemData.types}} / {{itemData.year}}</text>
+          <text>{{itemData.genres}} / {{itemData.year}}</text>
         </div>
       </div>
     </div>
@@ -31,8 +31,8 @@ export default {
   data() {
     return {
       movies: [],
-      page: 1,
-      size: 6,
+      page: 0,
+      size: 10,
       loading: true,
       windowHeight: 0
     }
@@ -55,13 +55,14 @@ export default {
         duration: 2000
       });
         wx.request({
-          url: `https://www.newfq.com/doubanapi/v0/movie/list?page=${that.page}&size=${that.size}`,
+          url: `https://douban.uieee.com/v2/movie/new_movies?page=${that.page}&size=${that.size}`,
+          header: { 'Content-Type': 'json' },
           success: (res) => {
-            let { data } = res.data
+            let { subjects } = res.data
             let movies = this.movies || []
 
-            for (let i = 0; i < data.length; i += 2) {
-              movies.push([data[i], data[i + 1] ? data[i + 1] : null])
+            for (let i = 0; i < subjects.length; i += 2) {
+              movies.push([subjects[i], subjects[i + 1] ? subjects[i + 1] : subjects[i - 1]])
             }
             this.movies = movies
             this.loading = false
