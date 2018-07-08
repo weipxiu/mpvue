@@ -9,7 +9,7 @@
         <p>{{movie.rating.average}}分 / {{movie.genres}}</p>
       </div>
       <div class="pubdate">
-        上映时间: {{movie.pubdate}}({{movie.languages}})
+        上映时间: {{movie.pubdates[0]}}
       </div>
       <div class="summary">
         电影简介：
