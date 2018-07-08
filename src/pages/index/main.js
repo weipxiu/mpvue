@@ -6,7 +6,7 @@ app.$mount()
 
 export default {
   config: {
-    navigationBarTitleText: '榜单 ● 电影 ● 豆瓣',
+    navigationBarTitleText: '豆瓣电影榜',
     enablePullDownRefresh: true //启用下拉事件
   }
 }

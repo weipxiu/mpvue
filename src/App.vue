@@ -13,7 +13,7 @@ export default {
 
 <style>
 page{
-  background: #eeeeee
+  background-color:#f8f9fb;
 }
 .container {
   height: 100%;
