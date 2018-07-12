@@ -1,6 +1,7 @@
 <template>
   <!-- <h1 class="counter">小程序</h1> -->
   <div class="content">
+    <!-- <div @click="increment">{{countNumber}}+4644646</div> -->
     <div class="swiper_cnetent" v-show="movies.length">
       <swiper :indicator-dots="true" :interval="3000" indicator-color="rgba(0, 0, 0, .8)" indicator-active-color="#ffffff" :autoplay="true" :duration="duration">
         <div v-for="(item,index) in imgUrls" :key="index">
@@ -34,6 +35,7 @@
 </template>
 
 <script>
+import store from "@/store";
 import card from "@/components/card";
 // import Config from '/config'
 
@@ -62,6 +64,12 @@ export default {
   },
 
   methods: {
+    increment () {
+      store.commit('increment')
+    },
+    decrement () {
+      store.commit('decrement')
+    },
     clickHandle(msg, ev) {
       console.log("clickHandle:", msg, ev);
     },
@@ -106,23 +114,21 @@ export default {
       });
     }
   },
-
+  
   created() {
     // 获取视频列表视频
     this.loadMovies();
 
     wx.getSystemInfo({
       success: res => {
-        // console.log(res.model)
-        // console.log(res.pixelRatio)
-        // console.log(res.windowWidth)
-        // console.log(res.windowHeight)
-        // console.log(res.language)
-        // console.log(res.version)
-        // console.log(res.platform)
         this.windowHeight = res.windowHeight;
       }
     });
+  },
+  computed:{
+    countNumber() {
+        return store.state.count;
+    }
   },
   onReachBottom() {
     this.page = this.page + 1;

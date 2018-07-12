@@ -110,7 +110,7 @@ export default {
     this.type = type;
     // 获取视频列表视频
     this.loadMovies(off);
-    console.log("123321", type);
+    console.log("123321", type,this.$root.$mp.query);
 
     //动态设置顶部title
     wx.setNavigationBarTitle({
