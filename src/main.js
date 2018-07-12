@@ -15,6 +15,7 @@ export default {
       '^pages/index/main', 
       'pages/index/idetail/main',
       'pages/user/main', 
+      'pages/user/idetail/main', 
       'pages/counter/main', 
       'pages/counter/cdetail/main'
     ],

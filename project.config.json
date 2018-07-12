@@ -42,6 +42,12 @@
 					"name": "个人中心",
 					"pathName": "pages/user/main",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "观看记录",
+					"pathName": "pages/user/idetail/main",
+					"query": ""
 				}
 			]
 		}

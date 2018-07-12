@@ -1,19 +1,20 @@
 <template>
   <!-- <h1 class="counter">小程序</h1> -->
   <div class="content">
-    <!-- <div @click="increment">{{countNumber}}+4644646</div> -->
+    <!-- <div @click="increment">{{countNumber}}+首页</div>
+    <div @click="increment">{{count}}+首页</div> -->
     <div class="swiper_cnetent" v-show="movies.length">
       <swiper :indicator-dots="true" :interval="3000" indicator-color="rgba(0, 0, 0, .8)" indicator-active-color="#ffffff" :autoplay="true" :duration="duration">
         <div v-for="(item,index) in imgUrls" :key="index">
           <swiper-item>
-            <image :src="item" class="slide-image" mode="aspectFill"/>
+            <image :src="item" class="slide-image" mode="aspectFill" />
           </swiper-item>
         </div>
       </swiper>
     </div>
     <h2 class="h2_title" v-show="movies.length">豆瓣电影新片榜</h2>
     <div class="list-item" v-for="(item,index) in movies" v-bind:key="index" v-show="movies.length">
-      <div class="movie-item" v-for="(itemData, itemIndex) in item" v-if="itemData" @click="gotoDetail(itemData.id)" v-bind:key="itemIndex">
+      <div class="movie-item" v-for="(itemData, itemIndex) in item" v-if="itemData" @click="gotoDetail(itemData)" v-bind:key="itemIndex">
         <!-- <image class="poster" mode="widthFix" lazy-load="true" :src="itemData.poster" /> -->
         <image class="poster" :src="itemData.images.small" />
         <div class="title">
@@ -43,6 +44,7 @@ export default {
   data() {
     return {
       movies: [],
+      storList:[],
       page: 0,
       size: 10,
       loading: true,
@@ -64,11 +66,11 @@ export default {
   },
 
   methods: {
-    increment () {
-      store.commit('increment')
+    increment() {
+      store.commit('increment', 5);
     },
-    decrement () {
-      store.commit('decrement')
+    decrement() {
+      store.commit('decrement');
     },
     clickHandle(msg, ev) {
       console.log("clickHandle:", msg, ev);
@@ -84,7 +86,7 @@ export default {
       wx.request({
         url: `https://douban.uieee.com/v2/movie/new_movies?page=${
           that.page
-        }&size=${that.size}`,
+          }&size=${that.size}`,
         header: { "Content-Type": "json" },
         success: res => {
           let { subjects } = res.data;
@@ -107,14 +109,26 @@ export default {
         }
       });
     },
-    gotoDetail(id) {
-      console.log("跳转详情页", id);
+    gotoDetail(item) {
+      //const {id,images.small,rating.average,genres,year} = item
+      const {id, title, images, rating, genres, year} = item
+      let obj = {
+        id,
+        title,
+        images:images.small,
+        average:rating.average,
+        genres,
+        year
+      };
+      this.storList.push(obj)
+      wx.setStorageSync('storList',this.storList)
+      console.log(images)
       wx.navigateTo({
         url: "/pages/index/idetail/main?id=" + id
       });
     }
   },
-  
+
   created() {
     // 获取视频列表视频
     this.loadMovies();
@@ -125,9 +139,12 @@ export default {
       }
     });
   },
-  computed:{
+  computed: {
     countNumber() {
-        return store.state.count;
+      return store.state.count;
+    },
+    count() {
+      return store.getters.count;
     }
   },
   onReachBottom() {
@@ -150,25 +167,26 @@ export default {
   text-align: center;
   margin: 45rpx 0;
 }
-.h2_title{
-  font-size:30rpx;
-  height:60rpx;
-  line-height:60rpx;
-  color:#333;
-  margin:40rpx 0 0;
-  padding:10rpx 0;
-  text-indent:15rpx;
+.h2_title {
+  font-size: 30rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  color: #333;
+  margin: 40rpx 0 0;
+  padding: 10rpx 0;
+  text-indent: 15rpx;
   background: #fff;
 }
 
 /*swiper轮播*/
-.swiper_cnetent{
-  width:100%;
-  height:420rpx;
+.swiper_cnetent {
+  width: 100%;
+  height: 420rpx;
 }
-.swiper_cnetent .slide-image,.swiper_cnetent swiper{
-  height:100%;
-  width:100%;
+.swiper_cnetent .slide-image,
+.swiper_cnetent swiper {
+  height: 100%;
+  width: 100%;
 }
 .list-item {
   overflow: hidden;
@@ -186,7 +204,7 @@ export default {
 
 .movie-item .poster {
   width: 100%;
-  height:230rpx;
+  height: 230rpx;
 }
 
 .movie-item .title {

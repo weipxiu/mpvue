@@ -43,9 +43,8 @@ export default {
   },
   methods: {
     gotoHistory() {
-      console.log("观看历史");
       wx.navigateTo({
-        url: "../history-list/history-list"
+        url: "./idetail/main"
       });
     },
 

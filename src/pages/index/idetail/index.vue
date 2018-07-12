@@ -1,5 +1,6 @@
 <template>
   <div class="container" v-if="movie">
+    <!-- <div @click="increment">{{count}}+详情</div> -->
     <video style="width: 100%;" :src="movie.blooper_urls" />
     <div class="movie-content">
       <div class="title">
@@ -24,6 +25,7 @@
 </template>
 
 <script>
+import store from "@/store";
 import card from "@/components/card";
 // import Config from '/config'
 
@@ -72,7 +74,14 @@ export default {
       });
     }
   },
-
+  computed: {
+    countNumber() {
+      return store.state.count;
+    },
+    count() {
+      return store.getters.count;
+    }
+  },
   created() {
     wx.getSystemInfo({
       success: res => {

@@ -9,10 +9,13 @@ const store = new Vuex.Store({
   state: {
     count: 0
   },
+  getters: {
+    count: state => state.count += 100
+  },
   mutations: {
-    increment: (state) => {
+    increment: (state, a) => {
       const obj = state
-      obj.count += 1
+      obj.count += a
     },
     decrement: (state) => {
       const obj = state
