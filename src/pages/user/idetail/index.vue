@@ -5,15 +5,15 @@
     <h2 class="h2_title" v-if="movies.length">观看记录</h2>
     <div class="list-item" v-for="(item,index) in movies" v-bind:key="index" v-show="movies.length">
       <!-- <image class="poster" mode="widthFix" lazy-load="true" :src="itemData.poster" /> -->
-        <image class="poster" :src="item.images" />
-        <div class="title">
-          <text>{{item.title}}
-            <text class="rate">{{item.average}}</text>
-          </text>
-        </div>
-        <div class="year-type">
-          <text>{{item.genres}} / {{item.year}}</text>
-        </div>
+      <image class="poster" :src="item.images" />
+      <div class="title">
+        <text>{{item.title}}
+          <text class="rate">{{item.average}}</text>
+        </text>
+      </div>
+      <div class="year-type">
+        <text>{{item.genres}} / {{item.year}}</text>
+      </div>
     </div>
 
   </div>
@@ -42,7 +42,7 @@ export default {
     //缓存历史观看数据
     this.movies = wx.getStorageSync('storList')
   },
-  onShow(){
+  onShow() {
     //缓存历史观看数据
     this.movies = wx.getStorageSync('storList')
   },
@@ -65,11 +65,11 @@ export default {
   line-height: 60rpx;
   color: #333;
   padding: 10rpx 0;
-  margin-bottom:20rpx;
+  margin-bottom: 20rpx;
   text-indent: 15rpx;
-  width:100%;
+  width: 100%;
   background: #fff;
-  display: block
+  display: block;
 }
 
 .list-item {
@@ -83,7 +83,6 @@ export default {
   display: block;
 }
 
-
 .movie-item .poster {
   width: 100%;
   height: 230rpx;
@@ -95,7 +94,13 @@ export default {
   color: #333;
   margin: 5rpx 0;
 }
-
+.movie-item .title text {
+  overflow: hidden; /*内容超出后隐藏*/
+  text-overflow: ellipsis; /* 超出内容显示为省略号*/
+  white-space: nowrap; /*文本不进行换行*/
+  width: 100%;
+  display: block;
+}
 .movie-item .title .rate {
   color: #f00;
 }
@@ -104,9 +109,9 @@ export default {
   text-align: center;
   font-size: 20rpx;
   color: #888;
-  overflow: hidden;/*内容超出后隐藏*/
-  text-overflow: ellipsis;/* 超出内容显示为省略号*/
-  white-space: nowrap;/*文本不进行换行*/
+  overflow: hidden; /*内容超出后隐藏*/
+  text-overflow: ellipsis; /* 超出内容显示为省略号*/
+  white-space: nowrap; /*文本不进行换行*/
 }
 
 .loading {
