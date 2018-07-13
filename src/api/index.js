@@ -12,12 +12,5 @@ function indexMovieList({ page, size }) {
 }
 
 module.exports = {
-  loadNews,
-  loadNewsByPullDown,
-  loadNewsByPullUp,
-  loadDetailsPageData,
-  loadRecommendNews,
-  getOpenid,
-  postOpenId,
-  isMegPush
+    indexMovieList
 };
