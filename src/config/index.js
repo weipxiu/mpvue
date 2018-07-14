@@ -1,4 +1,4 @@
 // api接口
 module.exports = {
-    doubanNewfq: 'https://www.newfq.com'
+    doubanNewfq: 'https://douban.uieee.com/v2/movie/new_movies'
 }
