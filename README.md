@@ -1,8 +1,4 @@
-# 本小程序技术站 = mpVue + 原生小程序 + ES6
-
-> Douban电影预告
-
-# 急速预告API
+# Douban电影预告 = mpVue + 原生小程序 + ES6
 
 域名: https://douban.uieee.com
 
