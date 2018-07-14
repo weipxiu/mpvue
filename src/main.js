@@ -22,7 +22,7 @@ export default {
     window: {
       backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: "#F44B50",
-      navigationBarTitleText: 'mpVue试玩',
+      navigationBarTitleText: 'Douban电影预告',
       navigationBarTextStyle: '#000000'
     },
     tabBar: {
