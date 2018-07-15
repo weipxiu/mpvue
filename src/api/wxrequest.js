@@ -8,7 +8,7 @@ function req(url, data, method = 'GET') {
   wx.showToast({
     title: '加载中',
     icon: 'loading',
-    duration: 2000
+    duration: 2500
   });
   return new Promise((resolve, reject) => {
     wx.request({
@@ -30,7 +30,7 @@ function req(url, data, method = 'GET') {
         }
         resolve(movies);
         wx.hideToast();
-        wx.hideNavigationBarLoading(); //完成停止加载
+        wx.hideNavigationBarLoading(); //完成停止bar加载
         wx.stopPullDownRefresh(); //停止下拉刷新
       },
       error: (res)=>{

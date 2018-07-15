@@ -1,17 +1,28 @@
 import WxRequest from "@/api/wxrequest.js";
 import Config from "@/config";
 
-//获取首页新片榜列表
-function indexMovieList({ page, size }) {
+//电影新片榜
+function indexMovieList({ start, count }) {
   return WxRequest(Config.doubanNewfq, {
-    page: page || '1',
-    size: size || '0'
+    start: start || '0',
+    count: count || '0'
+  }).then(res => {
+    return res;
+  });
+}
+
+//正在上映的电影
+function nowPlayingList({ start, count }) {
+  return WxRequest(Config.nowPlaying, {
+    start: start || '0',
+    count: count || '0'
   }).then(res => {
     return res;
   });
 }
 
 export default {
-  indexMovieList
+  indexMovieList,
+  nowPlayingList
 }
 

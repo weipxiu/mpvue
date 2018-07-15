@@ -4,7 +4,7 @@
     <!-- <div @click="increment">{{countNumber}}+首页</div>
     <div @click="increment">{{count}}+首页</div> -->
     <div class="swiper_cnetent" v-show="movies.length">
-      <swiper :indicator-dots="true" :interval="3000" indicator-color="rgba(0, 0, 0, .8)" indicator-active-color="#ffffff" :autoplay="true" :duration="duration">
+      <swiper :indicator-dots="true" :interval="3000" indicator-color="rgba(0, 0, 0, .8)" indicator-active-color="#ffffff" :autoplay="true" :duration="1000">
         <div v-for="(item,index) in imgUrls" :key="index">
           <swiper-item>
             <image :src="item" class="slide-image" mode="aspectFill" />
@@ -12,7 +12,7 @@
         </div>
       </swiper>
     </div>
-    <h2 class="h2_title" v-show="movies.length">豆瓣电影新片榜</h2>
+    <h2 class="h2_title" v-show="movies.length">正在上映的电影</h2>
     <div class="list-item" v-for="(item,index) in movies" v-bind:key="index" v-show="movies.length">
       <div class="movie-item" v-for="(itemData, itemIndex) in item" v-if="itemData" @click="gotoDetail(itemData)" v-bind:key="itemIndex">
         <!-- <image class="poster" mode="widthFix" lazy-load="true" :src="itemData.poster" /> -->
@@ -28,8 +28,9 @@
       </div>
     </div>
 
-    <div class="loading" v-show="loading">
-      <img src="/static/loading-bars.svg">
+    <div class="loading">
+      <img src="/static/loading-bars.svg" v-if="loading">
+      <p class="baseline" v-if="baselineShow">我也是有底线的。。。</p>
     </div>
 
   </div>
@@ -45,19 +46,16 @@ export default {
     return {
       movies: [],
       storList: [],
-      page: 0,
-      size: 10,
+      start: 0,
+      count: 20,
       loading: true,
+      baselineShow: false,
       windowHeight: 0,
       imgUrls: [
         '/static/banner1.jpg',
         '/static/banner2.jpg',
         '/static/banner3.jpg'
-      ],
-      indicatorDots: false,
-      autoplay: false,
-      interval: 5000,
-      duration: 1000
+      ]
     };
   },
 
@@ -76,19 +74,16 @@ export default {
       console.log("clickHandle:", msg, ev);
     },
     loadMovies() {
-      this.loading = true;
-
-      //获取视频列表视频
-      Api.indexMovieList({
-        page: this.page,
-        size: this.size
+      //获取正在上映视频列表视频
+      Api.nowPlayingList({
+        start: this.start,
+        count: this.count
       }).then((res) => {
-
         this.movies = this.movies.concat(res);
-        this.loading = false;
-
-        
-        console.log('返回数据', res)
+        if (!res.length) {
+          this.baselineShow = true;
+          this.loading = false;
+        }
       })
     },
     gotoDetail(item) {
@@ -128,13 +123,16 @@ export default {
       return store.getters.count;
     }
   },
+  //上拉刷新
   onReachBottom() {
-    this.page = this.page + 1;
-    this.loadMovies();
+    if (!this.baselineShow) {
+      this.start = this.start + 20;
+      this.loadMovies();
+    }
   },
+  //下拉刷新
   onPullDownRefresh() {
-    console.log("下拉");
-    this.page = this.page + 1;
+    this.start = this.start + 20;
     this.loadMovies();
     wx.showNavigationBarLoading(); //在标题栏中显示加载
   }
@@ -193,6 +191,9 @@ export default {
   text-align: center;
   color: #333;
   margin: 5rpx 0;
+  overflow: hidden; /*内容超出后隐藏*/
+  text-overflow: ellipsis; /* 超出内容显示为省略号*/
+  white-space: nowrap; /*文本不进行换行*/
 }
 
 .movie-item .title .rate {
@@ -214,5 +215,9 @@ export default {
 .loading img {
   width: 100%;
   height: 100%;
+}
+.baseline {
+  font-size: 30rpx;
+  color: #666;
 }
 </style>
