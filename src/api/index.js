@@ -1,9 +1,9 @@
-const WxRequest = require('./wxrequest.js');
-const Config = require('@/config/index.js');
+import WxRequest from "@/api/wxrequest.js";
+import Config from "@/config";
 
 //获取首页新片榜列表
 function indexMovieList({ page, size }) {
-  return WxRequest.req(Config.isMegPush, {
+  return WxRequest(Config.doubanNewfq, {
     page: page || '1',
     size: size || '0'
   }).then(res => {
@@ -11,6 +11,7 @@ function indexMovieList({ page, size }) {
   });
 }
 
-module.exports = {
-    indexMovieList
-};
+export default {
+  indexMovieList
+}
+

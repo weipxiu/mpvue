@@ -38,13 +38,13 @@
 <script>
 import store from "@/store";
 import card from "@/components/card";
-// import Config from '/config'
+import Api from "@/api";
 
 export default {
   data() {
     return {
       movies: [],
-      storList:[],
+      storList: [],
       page: 0,
       size: 10,
       loading: true,
@@ -76,52 +76,33 @@ export default {
       console.log("clickHandle:", msg, ev);
     },
     loadMovies() {
-      let that = this;
       this.loading = true;
-      wx.showToast({
-        title: "加载中",
-        icon: "loading",
-        duration: 2000
-      });
-      wx.request({
-        url: `https://douban.uieee.com/v2/movie/new_movies?page=${
-          that.page
-          }&size=${that.size}`,
-        header: { "Content-Type": "json" },
-        success: res => {
-          let { subjects } = res.data;
-          let movies = this.movies || [];
 
-          for (let i = 0; i < subjects.length; i += 4) {
-            movies.push([
-              subjects[i],
-              subjects[i + 1] ? subjects[i + 1] : subjects[i - 1],
-              subjects[i + 2] ? subjects[i + 2] : subjects[i - 2],
-              subjects[i + 3] ? subjects[i + 3] : subjects[i - 3],
-            ]);
-          }
-          this.movies = movies;
-          this.loading = false;
-          wx.hideToast();
+      //获取视频列表视频
+      Api.indexMovieList({
+        page: this.page,
+        size: this.size
+      }).then((res) => {
 
-          wx.hideNavigationBarLoading(); //完成停止加载
-          wx.stopPullDownRefresh(); //停止下拉刷新
-        }
-      });
+        this.movies = this.movies.concat(res);
+        this.loading = false;
+
+        
+        console.log('返回数据', res)
+      })
     },
     gotoDetail(item) {
-      //const {id,images.small,rating.average,genres,year} = item
-      const {id, title, images, rating, genres, year} = item
+      const { id, title, images, rating, genres, year } = item
       let obj = {
         id,
         title,
-        images:images.small,
-        average:rating.average,
+        images: images.small,
+        average: rating.average,
         genres,
         year
       };
       this.storList.push(obj)
-      wx.setStorageSync('storList',this.storList)
+      wx.setStorageSync('storList', this.storList)
       console.log(images)
       wx.navigateTo({
         url: "/pages/index/idetail/main?id=" + id

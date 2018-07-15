@@ -1,4 +1,4 @@
 // api接口
-module.exports = {
+export default {
     doubanNewfq: 'https://douban.uieee.com/v2/movie/new_movies'
 }
