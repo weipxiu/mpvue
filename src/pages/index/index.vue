@@ -40,17 +40,16 @@
 import store from "@/store";
 import card from "@/components/card";
 import Api from "@/api";
+import Utils from "@/utils";
 
 export default {
   data() {
     return {
       movies: [],
-      storList: [],
       start: 0,
       count: 20,
       loading: true,
       baselineShow: false,
-      windowHeight: 0,
       imgUrls: [
         '/static/banner1.jpg',
         '/static/banner2.jpg',
@@ -73,8 +72,8 @@ export default {
     clickHandle(msg, ev) {
       console.log("clickHandle:", msg, ev);
     },
+    //获取正在上映视频列表视频
     loadMovies() {
-      //获取正在上映视频列表视频
       Api.nowPlayingList({
         start: this.start,
         count: this.count
@@ -86,34 +85,14 @@ export default {
         }
       })
     },
+    //观看历史记录
     gotoDetail(item) {
-      const { id, title, images, rating, genres, year } = item
-      let obj = {
-        id,
-        title,
-        images: images.small,
-        average: rating.average,
-        genres,
-        year
-      };
-      this.storList.push(obj)
-      wx.setStorageSync('storList', this.storList)
-      console.log(images)
-      wx.navigateTo({
-        url: "/pages/index/idetail/main?id=" + id
-      });
+      Utils.watHistory(item)
     }
   },
-
+  // 获取视频列表视频
   created() {
-    // 获取视频列表视频
     this.loadMovies();
-
-    wx.getSystemInfo({
-      success: res => {
-        this.windowHeight = res.windowHeight;
-      }
-    });
   },
   computed: {
     countNumber() {
