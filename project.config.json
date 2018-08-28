@@ -29,7 +29,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 3,
 			"list": [
 				{
 					"id": 0,
@@ -47,6 +47,12 @@
 					"id": -1,
 					"name": "观看记录",
 					"pathName": "pages/user/idetail/main",
+					"query": ""
+				},
+				{
+					"id": 3,
+					"name": "详情页",
+					"pathName": "pages/index/idetail/main",
 					"query": ""
 				}
 			]

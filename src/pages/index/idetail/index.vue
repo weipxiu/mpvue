@@ -1,6 +1,7 @@
 <template>
   <div class="container" v-if="movie">
-    <!-- <div @click="increment">{{count}}+详情</div> -->
+    <div>{{countNumber}}+countNumber</div>
+    <div>{{count}}+count</div>
     <video style="width: 100%;" :src="movie.blooper_urls" />
     <div class="movie-content">
       <div class="title">
@@ -25,7 +26,6 @@
 </template>
 
 <script>
-import store from "@/store";
 import card from "@/components/card";
 // import Config from '/config'
 
@@ -76,10 +76,10 @@ export default {
   },
   computed: {
     countNumber() {
-      return store.state.count;
+      return this.store.state.count;
     },
     count() {
-      return store.getters.count;
+      return this.store.getters.count;
     }
   },
   created() {
@@ -92,7 +92,10 @@ export default {
   onLoad(opt) {
     // 获取视频详情信息
     //console.log(this.$root.$mp.query.id)通过mpvue方法拿到父亲页面传过来的值
-    this.loadMovies(opt.id);
+    this.loadMovies(opt.id || 27021609);
+  },
+  onShow(){
+    console.log(this.$root.$mp.query)//mpvue获取参数方法必须在onLoad或者之后的onShow/onHide等生命周期调用
   }
 };
 </script>
