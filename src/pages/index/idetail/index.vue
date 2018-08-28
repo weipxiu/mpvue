@@ -1,7 +1,10 @@
 <template>
   <div class="container" v-if="movie">
-    <div>{{countNumber}}+countNumber</div>
-    <div>{{count}}+count</div>
+    <div @click="incrementHand">{{countNumber}}+countNumber</div>
+    <div @click="contentHand">{{count}}+count</div>
+    <div v-for="(item,index) in list" :key="index">
+      <p>{{item.name}}</p>
+    </div>
     <video style="width: 100%;" :src="movie.blooper_urls" />
     <div class="movie-content">
       <div class="title">
@@ -45,7 +48,30 @@ export default {
   components: {
     card
   },
+  computed: {
+    countNumber() {
+      return this.store.state.count;
+    },
+    count() {
+      return this.store.getters.count;
+    },
+    list() {
+      return this.store.state.list;
+    }
+  },
   methods: {
+    //点击--
+    contentHand(){
+      this.store.commit("decrement",{count:1})
+    },
+    //点击++
+    incrementHand(){
+      this.store.commit("increment",{count:1})
+      if(this.store.state.count >= 3){
+        console.log('成功',this.store.state.list)
+        this.store.dispatch('getListAction')
+      }
+    },
     clickHandle(msg, ev) {
       console.log("clickHandle:", msg, ev);
     },
@@ -72,14 +98,6 @@ export default {
           }
         }
       });
-    }
-  },
-  computed: {
-    countNumber() {
-      return this.store.state.count;
-    },
-    count() {
-      return this.store.getters.count;
     }
   },
   created() {

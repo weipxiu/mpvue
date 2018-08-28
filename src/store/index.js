@@ -7,19 +7,40 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    count: 0
+    count: 0,
+    list: []
   },
   getters: {
-    count: state => state.count += 100
+    count: (state) => {
+      return state.count + 10 < 0 ? 0 : state.count + 10
+    }
   },
   mutations: {
-    increment: (state, a) => {
-      const obj = state
-      obj.count += a
+    increment: (state, payload) => {
+      state.count += payload.count
     },
-    decrement: (state) => {
-      const obj = state
-      obj.count -= 1
+    decrement: (state, payload) => {
+      state.count -= payload.count
+    },
+    changeList(state, list) {
+      state.list = list;
+    }
+  },
+  actions: {
+    getListAction({
+      commit
+    }) {
+      // 发送请求
+      wx.request({
+        url: `https://easy-mock.com/mock/5ad88f2ff3464d4f566fdf86/weipxiu/boke`,
+        header: {
+          'Content-Type': 'json'
+        },
+        success: res => {
+          console.log(res.data.data)
+          commit("changeList", res.data.data); // 拿到数据后，提交mutations，改变状态
+        }
+      });
     }
   }
 })
