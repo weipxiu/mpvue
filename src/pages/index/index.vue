@@ -93,7 +93,11 @@ export default {
   // 获取视频列表视频
   created() {
     this.loadMovies();
+
   },
+  // createad:()=>{
+  //   this.loadMovies();
+  // },
   computed: {
     countNumber() {
       return store.state.count;

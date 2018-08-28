@@ -66,6 +66,7 @@ export default {
   onLoad(options) {
     wx.getUserInfo({
       success: res => {
+        console.log(res.userInfo)
         (this.avatarUrl = res.userInfo.avatarUrl),
           (this.nickName = res.userInfo.nickName);
       }

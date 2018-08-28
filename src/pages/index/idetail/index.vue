@@ -91,6 +91,7 @@ export default {
   },
   onLoad(opt) {
     // 获取视频详情信息
+    //console.log(this.$root.$mp.query.id)通过mpvue方法拿到父亲页面传过来的值
     this.loadMovies(opt.id);
   }
 };
