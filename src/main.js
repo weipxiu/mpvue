@@ -15,18 +15,18 @@ export default {
   config: {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
     pages: [
-      '^pages/index/main', 
+      '^pages/index/main',
       'pages/index/idetail/main',
-      'pages/user/main', 
-      'pages/user/idetail/main', 
-      'pages/counter/main', 
+      'pages/user/main',
+      'pages/user/idetail/main',
+      'pages/counter/main',
       'pages/counter/cdetail/main'
     ],
     window: {
       backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: "#F44B50",
       navigationBarTitleText: 'Douban电影预告',
-      navigationBarTextStyle: '#000000'
+      navigationBarTextStyle: 'black'
     },
     tabBar: {
       color: "#999999",
